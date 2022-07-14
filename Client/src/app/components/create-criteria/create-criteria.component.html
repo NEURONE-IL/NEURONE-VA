@@ -1,0 +1,160 @@
+
+<h1>Crear Criterios</h1>
+<div *ngIf="criteriaNameIsEmpty" style="color: red">
+  El criterio necesita un nombre
+</div>
+
+<mat-form-field appearance="outline">
+  <mat-label>Nombre del criterio</mat-label>
+  <input
+    matInput
+    ngModel
+    name="criteriaName"
+    [(ngModel)]="criteriaName"
+    placeholder="Ingrese un nombre"
+    required
+  />
+</mat-form-field>
+
+<mat-form-field appearance="outline">
+  <mat-label>Seleccione un criterio:</mat-label>
+  <select
+    matNativeControl
+    ngModel
+    [(ngModel)]="currentCriteriaEdit"
+  >
+  <option [ngValue]="0">
+    Nuevo Criterio
+  </option>
+    <option
+      [ngValue]="criteria"
+      *ngFor="let criteria of criteriaList"
+    >
+      {{ criteria.name }}
+    </option>
+  </select>
+</mat-form-field>
+
+
+<button (click)="changeCriteriaEdit()" mat-flat-button color="primary" >
+  Editar Criterio
+</button> 
+
+
+<div class="criterion-grid">
+  <div class="data-crit-row">
+    <b>Crear criterio</b>
+
+    <form [formGroup]="newCriterionForm" (ngSubmit)="addCriterion()">
+      <div style="color: red" *ngIf="selectedMetricsEmpty">
+        Seleccione una métrica.
+      </div>
+      <mat-form-field appearance="outline">
+        <mat-label>Seleccione una metrica:</mat-label>
+        <select
+          matNativeControl
+          ngModel
+          formControlName="metric"
+          [(ngModel)]="currentMetricCriteria"
+          (change)="checkMetricSelected()"
+        >
+          <option
+            [ngValue]="metric.name"
+            *ngFor="let metric of item.selectedMetrics"
+          >
+            {{ metric.alias }}
+          </option>
+        </select>
+      </mat-form-field>
+      <br />
+
+      <div style="color: red" *ngIf="selectedConditionEmpty">
+        Seleccione una condición.
+      </div>
+      <mat-form-field appearance="outline">
+        <mat-label>Seleccione una condicion:</mat-label>
+        <select
+          matNativeControl
+          formControlName="condition"
+          ngModel
+          name="condition"
+          (change)="checkConditionSelected()"
+        >
+          <option
+            *ngFor="let condition of conditionList"
+            [ngValue]="condition.symbol"
+          >
+            {{ condition.word }}
+          </option>
+        </select>
+      </mat-form-field>
+      <br />
+
+      <mat-form-field appearance="outline">
+        <mat-label>Valor</mat-label>
+        <input
+          matInput
+          ngModel
+          type="number"
+          formControlName="value"
+          step="{{ currentMetricCriteria.interval }}"
+          min="0"
+          max="{{ currentMetricCriteria.max }}"
+          name="value"
+          required
+        />
+      </mat-form-field>
+      <div class="left-button">
+        <button mat-flat-button color="primary" type="submit">
+          Agregar Criterio
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="criterionList-row">
+    <b>Lista de Criterios:</b>
+    <div *ngIf="criteriaIsEmpty" style="color: red">
+      Para crear un criterio es necesario al menos una condición.
+    </div>
+    <div *ngFor="let criterion of criteria; index as i">
+      {{ criterion.metric }} _ {{ criterion.condition }} _ {{ criterion.value }}
+      <button
+        (click)="deleteCriterion(i)"
+        mat-icon-button
+        color="warn"
+        matTooltip="Borrar criterio"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div
+  *ngIf="criteriaCreated"
+  class="alert alert-success d-flex align-items-center"
+  role="alert"
+>
+  <i class="bi bi-check-circle-fill"></i>
+  <div style="margin-left: 5px">Criterio creado correctamente</div>
+</div>
+<div
+  *ngIf="criteriaCreatedFailed"
+  class="alert alert-danger d-flex align-items-center"
+  role="alert"
+>
+  <i class="bi bi-exclamation-triangle-fill"></i>
+  <div style="margin-left: 5px">
+    Error al crear Criterio. Intentelo nuevamente.
+  </div>
+</div>
+
+<div class="left-button">
+  <button *ngIf="!isEditingCriteria" mat-flat-button color="accent" (click)="saveCriteria()">
+    Crear Criterio
+  </button>
+
+  <button  *ngIf="isEditingCriteria" mat-flat-button color="accent" (click)="saveCriteria()">
+    Editar Criterio
+  </button>
+</div>

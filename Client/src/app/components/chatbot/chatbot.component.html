@@ -1,0 +1,68 @@
+<div *ngIf="visible">
+    <div class="criterionList-row">
+        <div class="boxChatbot">{{ chatbotData.message }}</div>
+
+        <div class="triangle"></div>
+        <img src="https://i.imgur.com/4XSQFLx.png" width="45px" height="45px"
+            style="border-radius: 80px; background-color: white" />
+
+        <div *ngIf="visibleMatrixOptions.length > 0">
+            <div *ngFor="let option of chatbotData.optionList; index as i">
+                <div *ngIf="visibleMatrixOptions[i].isVisible" (click)="showOptionsLayer1(i, option.textOption)"
+                    class="boxOption">
+                    {{ option.textOption }}
+                </div>
+                <div *ngIf="visibleMatrix[i].isVisible">
+                    <div class="boxChatbot">
+                        <div *ngIf="option.replyType ==='texto'">{{ option.textReply }}</div>
+                        <div *ngIf="option.replyType ==='imagen'">
+                            <img width="100%" max-height="200" [src]="option.filename">
+                        </div>
+
+                        <div> </div>
+                    </div>
+                    <div class="triangle"></div>
+                    <img src="https://i.imgur.com/4XSQFLx.png" width="45px" height="45px"
+                        style="border-radius: 80px; background-color: white" />
+                    <div *ngFor="let optionLayer of option.optionsIn; index as j">
+                        <div *ngIf="visibleMatrixOptions[i].optionList[j].isVisible"
+                            (click)="showOptionsLayer2(i, j, optionLayer.textOption)" class="boxOption">
+                            {{ optionLayer.textOption }}
+                        </div>
+                        <div *ngIf="visibleMatrix[i].optionList[j].isVisible">
+                            <div class="boxChatbot">
+                                <div *ngIf="optionLayer.replyType ==='texto'">{{ optionLayer.textReply }}</div>
+                                <div *ngIf="optionLayer.replyType ==='imagen'">
+                                    <img width="100%" max-height="200" [src]="optionLayer.filename">
+                                </div>
+                            </div>
+                            <div class="triangle"></div>
+                            <img src="https://i.imgur.com/4XSQFLx.png" width="45px" height="45px"
+                                style="border-radius: 80px; background-color: white" />
+                            <div *ngFor="let optionLayerTwo of optionLayer.optionsIn; index as k">
+                                <div (click)="showOptionsLayer3(i, j, k, optionLayerTwo.textOption)" class="boxOption">
+                                    {{ optionLayerTwo.textOption }}
+                                </div>
+                                <div *ngIf="visibleMatrix[i].optionList[j].optionList[k].isVisible">
+                                    <div class="boxChatbot">
+                                        <div *ngIf="optionLayerTwo.replyType ==='texto'">{{ optionLayerTwo.textReply }}
+                                        </div>
+                                        <div *ngIf="optionLayerTwo.replyType ==='imagen'">
+                                            <img width="100%" max-height="200" [src]="optionLayerTwo.filename">
+                                        </div>
+
+                                    </div>
+                                    <div class="triangle"></div>
+                                    <img src="https://i.imgur.com/4XSQFLx.png" width="45px" height="45px"
+                                        style="border-radius: 80px; background-color: white" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button mat-flat-button color="accent" (click)="hide()"> Chatbot </button>

@@ -1,0 +1,27 @@
+.criterion-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 3fr));
+  grid-template-rows: repeat(1, minmax(0, 3fr));
+  grid-gap: 10px;
+}
+
+.data-crit-row {
+  grid-column: 1;
+  grid-row: 1;
+  padding: 15px;
+  border: 1px solid rgb(209, 208, 208);
+  border-radius: 4px;
+}
+
+.criterionList-row {
+  grid-column: 2;
+  grid-row: 1;
+  padding: 15px;
+  border: 1px solid rgb(209, 208, 208);
+  border-radius: 4px;
+}
+
+.left-button {
+  padding: 15px;
+  text-align: right;
+}

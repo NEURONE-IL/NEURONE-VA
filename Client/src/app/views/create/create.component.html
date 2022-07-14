@@ -1,0 +1,139 @@
+<div class="tree-side-grid">
+  <div class="b-row">
+    <br />
+    <div class="borderSecction">
+      <h1>Crear Asistente</h1>
+      <form #createAssistant="ngForm" (ngSubmit)="createAV(createAssistant.value)">
+        <div class="internal-grid">
+          <div class="data-row">
+            <mat-form-field appearance="outline">
+              <mat-label>{{ "create.assistant.name" | translate }}</mat-label>
+              <input matInput ngModel [(ngModel)]="name" name="name" placeholder="Ingrese un nombre" required />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>{{
+                "create.assistant.description" | translate
+                }}</mat-label>
+              <input matInput ngModel [(ngModel)]="description" name="description" placeholder="Ingrese una descripción"
+                required />
+            </mat-form-field>
+            <br />
+            Tipo:
+            <mat-radio-group ngModel [(ngModel)]="type" name="type" required (change)="selectedTypeRadio()">
+              <mat-radio-button value="Chatbot">Option Chatbot</mat-radio-button>
+              <mat-radio-button value="Avatar">Option Avatar</mat-radio-button>
+            </mat-radio-group>
+            <div *ngIf="createAssistantTypeNotSelected" style="color: red">
+              Seleccione un tipo de asistente.
+            </div>
+
+            <br />
+          </div>
+          <div class="metricList-row">
+            <b>Metricas Seleccionadas:</b>
+            <div *ngIf="selectedMetricsEmpty && createAssistantCheckMetrics" style="color: red">
+              Si el asistente es tipo Avatar es necesario seleccionar al menos
+              una metrica
+            </div>
+            <div *ngFor="let metricName of selectedMetricsList; index as i">
+              {{ metricName }}
+              <button (click)="deleteMetric(i)" mat-icon-button color="warn" matTooltip="Eliminar metrica">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+          <div class="description-row">
+            <b>Descripción metrica seleccionada:</b>
+            {{ currentDetailedMetric.descriptions.es }}
+          </div>
+          <div class="metric-row">
+            <br />
+            <mat-form-field appearance="outline">
+              <mat-label>Seleccione una metrica:</mat-label>
+              <select matNativeControl name="selectedMetric" [(ngModel)]="currentDetailedMetric">
+                <option [ngValue]="metric" *ngFor="let metric of metrics">
+                  {{ metric.alias }}
+                </option>
+              </select>
+            </mat-form-field>
+
+            <button mat-icon-button color="primary" type="button" matTooltip="Agregar metrica"
+              (click)="selectMetric(currentDetailedMetric)">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+        </div>
+        <!-- Alerts-->
+        <div *ngIf="assistantCreated" class="alert alert-success d-flex align-items-center" role="alert">
+          <i class="bi bi-check-circle-fill"></i>
+          <div style="margin-left: 5px">Asistente creado correctamente</div>
+        </div>
+        <div *ngIf="assistantCreationFailed" class="alert alert-danger d-flex align-items-center" role="alert">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          <div style="margin-left: 5px">
+            Error al crear asistente. Intentelo nuevamente.
+          </div>
+        </div>
+        <!----->
+        <div *ngIf="assistantID == ''" class="left-button">
+          <button mat-flat-button color="accent" type="submit" disabled="{{ disableCreateButton }}">
+            Crear Asistente
+          </button>
+        </div>
+
+        <div *ngIf="assistantID != ''" class="left-button">
+          <button mat-flat-button color="accent" type="submit" disabled="{{ disableCreateButton }}">
+            Editar Asistente
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+    <!------------------------------------------------------------------------->
+    <div class="borderSecction" *ngIf="this.type == 'Avatar' && this.assistantID != ''">
+      <app-create-criteria [item]="criteriaData"></app-create-criteria>
+    </div>
+    <!------------------------------------------------------------------------->
+    <div class="borderSecction" *ngIf="type == 'Avatar' && this.assistantID != ''">
+      <app-create-action [assistantId]="assistantID" [actionType]="type"></app-create-action>
+    </div>
+    <div class="borderSecction" *ngIf="type == 'Chatbot' && this.assistantID != ''">
+      <app-create-action [assistantId]="assistantID" [actionType]="type"></app-create-action>
+    </div>
+
+    <!------------------------------------------------------------------------->
+    <div class="borderSecction" *ngIf="type == 'Avatar' && this.assistantID != ''">
+      <h4>Criterios y Acciones</h4>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Seleccione un Criterio</mat-label>
+        <select matNativeControl name="selectedCriteria" [(ngModel)]="currentCriteriaId">
+          <option [ngValue]="criteria._id" *ngFor="let criteria of criteriaList">
+            {{ criteria.name }}
+          </option>
+        </select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Seleccione una acción</mat-label>
+        <select matNativeControl name="selectedAction" [(ngModel)]="currentActionId">
+          <option [ngValue]="action._id" *ngFor="let action of actionList">
+            {{ action.name }}
+          </option>
+        </select>
+      </mat-form-field>
+
+      <button type="button" mat-flat-button color="accent" (click)="reload()">Refresh</button>
+      <button mat-flat-button color="primary" (click)="addCriteriaToAction()">Add criteria to Action</button>
+
+      <br>
+
+      <div *ngIf="criteriaAndAction" class="alert alert-success d-flex align-items-center" role="alert">
+        <i class="bi bi-check-circle-fill"></i>
+        <div style="margin-left: 5px">Criterio y Accion unidos correctamente</div>
+      </div>
+    </div>
+  </div>
+</div>

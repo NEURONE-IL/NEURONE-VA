@@ -1,0 +1,119 @@
+<!-- Modal -->
+
+<div class="modal fade" id="exampleModal" style="position: fixed" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Eliminar Asistente</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ¿Esta seguro que desea eliminar el asistente y sus elementos
+        relacionados?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancelar
+        </button>
+        <button type="button" class="btn btn-primary" (click)="delete()" data-bs-dismiss="modal">
+          Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="center-div">
+  <div class="b-row">
+    <h2>NEURONE AV</h2>
+    <div class="d-grid gap-2">
+    <mat-form-field appearance="outline">
+      <mat-label>Lista de asistentes</mat-label>
+      <select matNativeControl (change)="alertCall()" [(ngModel)]="currentAssistant">
+        <option *ngFor="let assistant of assistantList" [ngValue]="assistant">
+          {{ assistant.name }}
+        </option>
+      </select>
+    </mat-form-field>
+    </div>
+   
+    <b>Nombre: </b>{{ currentAssistant.name }}<br />
+    <b>Descripción: </b>{{ currentAssistant.description }}<br />
+    <b>Tipo: </b>{{ currentAssistant.type }}
+    <br />
+    <div *ngIf="currentAssistant.type == 'Avatar'">
+      <h4>Elementos del asistente</h4>
+      <b>Citerios Creados:</b>
+      <div *ngFor="let criteria of criteriaList">
+        <li> {{ criteria.name }}
+          <button type="button" class="btn btn-outline-danger" (click)="deleteCriteria(criteria._id)"
+            style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .25rem; --bs-btn-font-size: .5rem; margin-bottom: .3rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash"
+              viewBox="0 0 16 16">
+              <path
+                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+              <path fill-rule="evenodd"
+                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+            </svg>
+          </button>
+        </li>
+      </div>
+      <div *ngIf="criteriaList.length === 0">
+        Este asistente no cuenta con criterios creados
+      </div>
+      <b>Acciones creadas:</b>
+      <div *ngFor="let action of actionList">
+        {{ action.name }}
+
+        <button type="button" class="btn btn-outline-danger" (click)="deleteAction(action._id)"
+          style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .25rem; --bs-btn-font-size: .5rem; margin-bottom: .3rem;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash"
+            viewBox="0 0 16 16">
+            <path
+              d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+            <path fill-rule="evenodd"
+              d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+          </svg>
+        </button>
+
+      </div>
+      <div *ngIf="actionList.length === 0">
+        Este asistente no cuenta con acciones creadas
+      </div>
+    </div>
+    <div *ngIf="currentAssistant.type == 'Chatbot'">
+      <h4>Elementos del asistente</h4>
+      <b>Chatbot creado: </b>
+      <div *ngFor="let action of actionList">
+        <li> {{ action.name }}
+          <button type="button" class="btn btn-outline-danger" (click)="deleteAction(action._id)"
+            style="--bs-btn-padding-y: .15rem; --bs-btn-padding-x: .25rem; --bs-btn-font-size: .5rem; margin-bottom: .3rem;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash"
+              viewBox="0 0 16 16">
+              <path
+                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+              <path fill-rule="evenodd"
+                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+            </svg>
+          </button>
+        </li>
+      </div>
+      <div *ngIf="actionList.length === 0">
+        Este asistente no cuenta con un chatbot creado
+      </div>
+    </div>
+    <div class="d-grid gap-2">
+      <button type="button" class="btn btn-primary" [routerLink]="['/create']">Crear</button>
+
+      <button type="button" class="btn btn-success" (click)="redirect()">Editar</button>
+
+      <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Eliminar Asistente
+      </button>
+
+    </div>
+
+
+  </div>
+</div>

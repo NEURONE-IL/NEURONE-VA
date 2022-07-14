@@ -1,0 +1,13 @@
+
+<div class="chatbot" *ngIf="type == 'Chatbot' && chatbotData.message!=''">
+    <app-chatbot [chatbotData]="chatbotData"></app-chatbot>
+  </div>
+  
+  <div *ngIf="type == 'Avatar'">
+    <div *ngIf="visible">
+      <app-avatar [message]="newCurrentAction.avatarMessage"></app-avatar>
+    </div>
+  </div>
+  
+ 
+  

@@ -1,0 +1,106 @@
+.criterion-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 3fr));
+    grid-template-rows: repeat(1, minmax(0, 3fr));
+    grid-gap: 10px;
+  }
+  
+  .data-crit-row {
+    grid-column: 1;
+    grid-row: 1;
+    padding: 15px;
+    border: 1px solid rgb(209, 208, 208);
+    border-radius: 4px;
+  }
+  
+  .criterionList-row {
+    grid-column: 2;
+    grid-row: 1;
+    padding: 15px;
+    border: 1px solid rgb(209, 208, 208);
+    border-radius: 4px;
+  }
+  
+  /* Realizar Hide button*/
+  input[type="checkbox"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+  }
+  
+  div {
+    position: relative;
+  }
+  
+  label {
+    cursor: pointer;
+  }
+  label {
+    position: relative;
+    display: block;
+  }
+  label::before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+  }
+  .chatbot-msg {
+    padding: 15px;
+    margin-right: 30px;
+    background-color: rgb(158, 215, 241);
+    border: 1px solid rgb(158, 215, 241);
+    border-radius: 4px;
+  }
+  .chatbot-msg-reply {
+    max-height: 0;
+    overflow: hidden;
+    margin-right: 10%;
+    transition: max-height 0.4s ease;
+    background-color: rgb(158, 215, 241);
+    border-radius: 4px;
+  }
+  .userOption {
+    padding: 15px;
+    margin-left: 30px;
+    background-color: rgb(52, 184, 245);
+    border: 1px solid rgb(209, 208, 208);
+    border-radius: 4px;
+  }
+  input[type="checkbox"]:checked ~ .userOption label::before {
+    margin-left: -4px;
+    margin-top: -4px;
+  }
+  
+  input[type="checkbox"]:checked ~ .userOption ~ .chatbot-msg-reply {
+    max-height: 80px;
+  }
+  p {
+    padding-left: 15px;
+  }
+  
+  .boxChatbot{
+    background-color:rgb(158, 215, 241);
+    border-radius: 4px;
+    padding: 2px;
+  }
+  
+  .boxOption{
+    background-color: rgb(52, 184, 245); 
+    border-radius: 4px;
+    padding: 3px;
+    margin-bottom: 2px;
+  }
+  
+  .triangle {
+    margin-left: 15px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 20px 20px 0 0;
+    border-color: rgb(158, 215, 241) transparent transparent transparent;
+  }
+  
