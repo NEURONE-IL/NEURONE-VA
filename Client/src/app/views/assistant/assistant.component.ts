@@ -125,7 +125,7 @@ newCurrentAction: avatarData ={
           this.addStudentToClient();
           this.getActions();
           this.getCriteria();
-          this.first();
+          this.startSource();
         }
       });
   }
@@ -142,6 +142,7 @@ newCurrentAction: avatarData ={
       .subscribe(
         (res) => {
           console.log(res);
+          //this.startSource();
         },
         (error) => {
           console.error('Error al agregar');
@@ -291,7 +292,6 @@ newCurrentAction: avatarData ={
         this.currentAction = element;
         if(this.currentAction.message !=undefined){
           this.newCurrentAction.avatarMessage = this.currentAction.message.message;
-
         }
       }
     }
@@ -367,11 +367,11 @@ newCurrentAction: avatarData ={
     return false;
   }
 
-  //Escuchar client1 a través de SSE
+  //Escuchar al cliente a través de SSE
   /**
-   * @function first
+   * @function startSource
    */
-  first(): void {
+  startSource(): void {
     console.log('escuchando');
     this.sseService.stopExchangeUpdates();
     this.sseService.createEventSource('/sse?clients=' + this.assistantName);
@@ -388,7 +388,6 @@ newCurrentAction: avatarData ={
   }
 
   stop(): void {
-    console.log('Delete! ');
     this.http
       .delete(this.apiUrl + '/api/clients/'+ this.assistantName+'/elements')
       .subscribe((res) => console.log(res));
