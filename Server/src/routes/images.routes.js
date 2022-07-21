@@ -7,7 +7,7 @@ const path = require('path')
 const sharp = require('sharp');
 
 
-const URL = "http://localhost:3000/images/"
+const URL = "https://va.neurone.info/api/images"
 global.__basedir = __dirname;
 
 const storage = multer.diskStorage({

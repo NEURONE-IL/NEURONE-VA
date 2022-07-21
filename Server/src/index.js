@@ -12,7 +12,7 @@ mongoose.connect(mongoURI)
     .then((db) => console.log("conectado a mongodb"))
     .catch((err) => console.log("No se pudo conectar"));
 
-app.use("/", require("./routes/images.routes"));
+app.use("/api/", require("./routes/images.routes"));
 app.use("/api/", require("./routes/assistant.routes"));
 app.use("/api/", require("./routes/criteria.routes"));
 app.use("/api/", require("./routes/action.routes"));
