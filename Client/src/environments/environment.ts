@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: '//143.244.185.87:7999',
+  apiUrl: 'https://am.neurone.info:8999',
   neuroneVAUrl: 'https://va.neurone.info/api',
 };
 
